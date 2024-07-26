@@ -26,6 +26,7 @@ function Dashboard() {
     }
     setIsEmail((e) => !e);
   };
+  
   const emailClick22 = () => {
     if (data) {
       const filter = data.filter((e) => !e.emailVerified);
