@@ -1,33 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, act } from "react";
+import { CgLaptop } from "react-icons/cg";
 import { FaEdit } from "react-icons/fa";
 
-function ExchangeTable({ data, email, email1, active, active1 }) {
-  const [filteredData, setFilteredData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
-  console.log(filteredData);
-  useEffect(() => {
-    // Filter data based on props
-    const safeData = Array.isArray(data) ? data : [];
-    const newFilteredData = safeData.filter((user) =>
-      (email ? user.email?.includes(email) : true) &&
-      (email1 ? user.email?.includes(email1) : true) &&
-      (active !== undefined ? user.active === active : true) &&
-      (active1 !== undefined ? user.active === active1 : true)
-    );
-    setFilteredData(newFilteredData);
-    setCurrentPage(1); // Reset to first page on filter change
-  }, [data, email, email1, active, active1]);
+ function ExchangeTable({ data=[],
+  emailVerifiedData, notVerifiedData, activeData, inactiveData
+ }) 
+ {
+//  console.log("email",email)
+//  console.log("active",active)
+ 
+
+//   console.log(active);
+//   console.log(email)
+//   const [filteredData, setFilteredData] = useState([]);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const recordsPerPage = 5;
+//   console.log(filteredData);
+//   useEffect(() => {
+//     // Filter data based on props
+//     const safeData = Array.isArray(data) ? data : [];
+//     const newFilteredData = safeData.filter((user) =>
+//       (email ? user.email?.includes(email) : true) &&
+//       (email1 ? user.email?.includes(email1) : true) &&
+//       (active !== undefined ? user.active === active : true) &&
+//       (active1 !== undefined ? user.active === active1 : true)
+//     );
+//     setFilteredData(newFilteredData);
+    
+//     setCurrentPage(1); // Reset to first page on filter change
+//   }, [data, email, email1, active, active1]);
 
   // Pagination calculations
-  const lastIndex = currentPage * recordsPerPage;
-  const firstIndex = lastIndex - recordsPerPage;
-  const records = filteredData.slice(firstIndex, lastIndex);
-  const npages = Math.ceil(filteredData.length / recordsPerPage);
-  const numbers = [...Array(npages + 1).keys()].slice(1);
+  // const lastIndex = currentPage * recordsPerPage;
+  // const firstIndex = lastIndex - recordsPerPage;
+  // const records = filteredData.slice(firstIndex, lastIndex);
+  // const npages = Math.ceil(filteredData.length / recordsPerPage);
+  // const numbers = [...Array(npages + 1).keys()].slice(1);
 
+
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    // Combine all data arrays into one filtered data
+    setFilteredData([...emailVerifiedData, ...notVerifiedData, ...activeData, ...inactiveData]);
+  }, [emailVerifiedData, notVerifiedData, activeData, inactiveData]);
+
+ 
   return (
-    <div className="flex-col w-full">
+    <div className="flex-col w-full" >
       <div className="overflow-x-auto w-full">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-100">
@@ -43,7 +63,7 @@ function ExchangeTable({ data, email, email1, active, active1 }) {
             </tr>
           </thead>
           <tbody className="text-center">
-            {records.map((e, i) => (
+            {filteredData.map((e, i) => (
               <tr key={i} className="cursor-pointer hover:bg-gray-100 duration-200">
                 <td className="py-3 px-6">{i + 1}</td>
                 <td className="py-3 px-6">{e.username}</td>
@@ -60,7 +80,7 @@ function ExchangeTable({ data, email, email1, active, active1 }) {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-center mt-4">
+      {/* <div className="flex justify-center mt-4">
         <nav>
           <ul className="flex gap-4">
             <li className="border-2 border-gray-200 p-1 rounded-sm hover:scale-105">
@@ -79,25 +99,25 @@ function ExchangeTable({ data, email, email1, active, active1 }) {
             </li>
           </ul>
         </nav>
-      </div>
+      </div> */}
     </div>
   );
 
-  function prePage() {
-    if (currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  }
+  // function prePage() {
+  //   if (currentPage !== 1) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // }
 
-  function changePage(id) {
-    setCurrentPage(id);
-  }
+  // function changePage(id) {
+  //   setCurrentPage(id);
+  // }
 
-  function nextPage() {
-    if (currentPage !== npages) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
+  // function nextPage() {
+  //   if (currentPage !== npages) {
+  //     setCurrentPage(currentPage + 1);
+  //   }
+  // }
 }
 
 export default ExchangeTable;

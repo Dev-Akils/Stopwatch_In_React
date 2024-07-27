@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import UserList2 from "./UserList2";
 import UserList3 from "./UserList3";
 function UserList({
   data,
-  emailClick2,
-  emailClick22,
-  activeClick1,
-  activeClick11,
-  email,email1,
-  active,active1,
-  isDataVisible ,isEmail,
-  isEmail1,isDataVisible1
+  onEmailVerifiedClick, onNotVerifiedClick, onActiveClick, onInactiveClick
+   
+ 
 
 }) {
   const totalUsers = data ? data.length : 0;
@@ -32,18 +27,19 @@ function UserList({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <div className="flex flex-col py-2">
                 <p>Active Users</p>
-                <h2 onClick={activeClick1}>
+                <h2 
+                onClick={onActiveClick}>
                  
                   {isActive}
                 </h2>
-                {isDataVisible &&
+                {/* {isDataVisible &&
                   active.length > 0 &&
-                  active.map((e, index) => <h3 key={index}>{e.username}</h3>)}
+                  active.map((e, index) => <h3 key={index}>{e.username}</h3>)} */}
               </div>
               <div className="flex flex-col py-2 text-center">
                 <p>Inactive Users</p>
-                <h2 onClick={activeClick11}>{inActive}</h2>
-                {isDataVisible1&& active1.length>0&&active1.map(e=><h3>{e.username}</h3>)}
+                <h2 onClick={onInactiveClick} >{inActive}</h2>
+                {/* {isDataVisible1&& active1.length>0&&active1.map(e=><h3>{e.username}</h3>)} */}
               </div>
             </div>
           </div>
@@ -53,13 +49,13 @@ function UserList({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col py-2">
                 <p>Verified</p>
-                <h3 onClick={emailClick2}>{verified}</h3>
-                {isEmail&&email.length>0 && email.map(e=><h3>{e.username}</h3>)}
+                <h3 onClick={onEmailVerifiedClick}>{verified}</h3>
+                {/* {isEmail&&email.length>0 && email.map(e=><h3>{e.username}</h3>)} */}
               </div>
               <div className="flex flex-col py-2 text-center">
                 <p>Not Verified</p>
-                <h3 onClick={emailClick22}>{notVeri}</h3>
-                {isEmail1&& email1.length>0 && email1.map(e=><h2>{e.username}</h2>)}
+                <h3 onClick={onNotVerifiedClick}>{notVeri}</h3>
+                {/* {isEmail1&& email1.length>0 && email1.map(e=><h2>{e.username}</h2>)} */}
               </div>
             </div>
           </div>
