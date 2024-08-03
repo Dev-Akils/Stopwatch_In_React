@@ -1,11 +1,16 @@
-import React, { useState, useEffect, act } from "react";
+import React, { useState, useEffect, act,useImperativeHandle,forwardRef } from "react";
 import { CgLaptop } from "react-icons/cg";
 import { FaEdit } from "react-icons/fa";
-
- function ExchangeTable({ data=[],
-  emailVerifiedData, notVerifiedData, activeData, inactiveData
- }) 
- {
+const ExchangeTable = forwardRef(({ data }, ref) => {
+  useImperativeHandle(ref, () => ({
+    updateData() {
+      // Optionally handle any specific actions when data is updated
+    }
+  }));
+//  function ExchangeTable({ data=[],
+//   emailVerifiedData, notVerifiedData, activeData, inactiveData,ref
+//  }) 
+//  {
 //  console.log("email",email)
 //  console.log("active",active)
  
@@ -38,14 +43,20 @@ import { FaEdit } from "react-icons/fa";
   // const numbers = [...Array(npages + 1).keys()].slice(1);
 
 
-  const [filteredData, setFilteredData] = useState([]);
+  // const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
-    // Combine all data arrays into one filtered data
-    setFilteredData([...emailVerifiedData, ...notVerifiedData, ...activeData, ...inactiveData]);
-  }, [emailVerifiedData, notVerifiedData, activeData, inactiveData]);
-
+  // useEffect(() => {
+  //   // Combine all data arrays into one filtered data
+  //   setFilteredData([...emailVerifiedData, ...notVerifiedData, ...activeData, ...inactiveData]);
+  // }, [emailVerifiedData, notVerifiedData, activeData, inactiveData]);
+  // useImperativeHandle(ref, () => ({
+  //   updateData() {
+  //     // You can also perform additional actions here if needed
+  //     setFilteredData([...emailVerifiedData, ...notVerifiedData, ...activeData, ...inactiveData]);
+  //   }
+  // }));
  
+
   return (
     <div className="flex-col w-full" >
       <div className="overflow-x-auto w-full">
@@ -63,7 +74,7 @@ import { FaEdit } from "react-icons/fa";
             </tr>
           </thead>
           <tbody className="text-center">
-            {filteredData.map((e, i) => (
+            {data.map((e, i) => (
               <tr key={i} className="cursor-pointer hover:bg-gray-100 duration-200">
                 <td className="py-3 px-6">{i + 1}</td>
                 <td className="py-3 px-6">{e.username}</td>
@@ -118,6 +129,6 @@ import { FaEdit } from "react-icons/fa";
   //     setCurrentPage(currentPage + 1);
   //   }
   // }
-}
+})
 
 export default ExchangeTable;

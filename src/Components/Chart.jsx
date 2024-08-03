@@ -153,7 +153,7 @@ const Chart = () => {
 
   return (<>
     {/* <Link to="/"><button className="mx-20 my-20 flex justify-start gap-1 items-center bg-slate-20 hover:shadow-gray shadow-black p-2 hover:shadow-xl shadow-sm "> <FaArrowLeft /> Back </button></Link> */}
-    <div className="mt-10    grid xs:grid-cols-2  grid-cols-1 md:grid-cols-2 gap-2 bg-light-white">
+    <div className="mt-10  mx-auto container  grid xs:grid-cols-2  grid-cols-1 md:grid-cols-2 gap-2 bg-light-white">
       <div className="">
         <HighchartsReact highcharts={Highcharts} options={options1} />
       </div>
