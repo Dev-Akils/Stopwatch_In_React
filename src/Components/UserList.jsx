@@ -5,9 +5,6 @@ import UserList3 from "./UserList3";
 function UserList({
   data,
   onEmailVerifiedClick, onNotVerifiedClick, onActiveClick, onInactiveClick
-   
- 
-
 }) {
   const totalUsers = data ? data.length : 0;
   const isActive = data ? data.filter((user) => user.isActive).length : 0;

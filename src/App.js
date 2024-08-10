@@ -1,22 +1,34 @@
 
 import './App.css';
+import {useState} from 'react';
 import Dashboard from './Pages/Dashboard';
 import Header from '../src/Components/Header/Header';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Patternlock from '../src/Components/Pattern/Patternlock';
-// import UnifiedMenu from '../src/Components/Unified';
+import { BrowserRouter as Router, Route, Routes,Navigate } from 'react-router-dom';
+
 
 import Login from '../src/Components/Login/login';
+import { useEffect } from 'react';
 
 
 function App() {
+const [token,setToken]=useState(localStorage.getItem('token')|| null);
+useEffect(()=>{
+  const tokenFromStorage=localStorage.getItem('token');
+  if(tokenFromStorage){
+    setToken(tokenFromStorage);
+  }
+},[]);
+
   return (
     <Router>
       <Header />
       <Routes>
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={!token ?<Login setToken={setToken} />:<Navigate to="/"/>} />
+        <Route path='/' element={!token ?<Dashboard/>:<Navigate to="/"/>}/> */}
+        <Route path="/login" element={<Login setToken={setToken}/>}/>
         <Route path='/' element={<Dashboard/>}/>
-        {/* Add other routes here */}
+
+       
       </Routes>
     </Router>
     );
