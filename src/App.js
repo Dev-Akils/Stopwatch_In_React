@@ -23,10 +23,21 @@ useEffect(()=>{
     <Router>
       <Header />
       <Routes>
-        {/* <Route path="/login" element={!token ?<Login setToken={setToken} />:<Navigate to="/"/>} />
-        <Route path='/' element={!token ?<Dashboard/>:<Navigate to="/"/>}/> */}
-        <Route path="/login" element={<Login setToken={setToken}/>}/>
-        <Route path='/' element={<Dashboard/>}/>
+         {/* <Route path="/login" element={!token ?<Login setToken={setToken} />:<Navigate to="/"/>} />
+        <Route path='/' element={!token ?<Dashboard/>:<Navigate to="/"/>}/>  */}
+         <Route path="/login" element={<Login setToken={setToken}/>}/>
+        <Route path='/' element={<Dashboard/>}/> 
+       
+
+
+{/* <Route 
+          path="/login" 
+          element={!token ? <Navigate to="/" /> : <Login setToken={setToken} />} 
+        />
+        <Route 
+          path="/" 
+          element={token ? <Navigate to="/login" /> : <Dashboard />} 
+        /> */}
 
        
       </Routes>
