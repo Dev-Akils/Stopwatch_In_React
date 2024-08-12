@@ -1,85 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PatternLock from "react-pattern-lock";
 
-const Login = ({ setToken }) => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-   const [pattern, setPattern] = useState([]);
-   const [isDrawing, setIsDrawing] = useState(false);
-   const [correctPattern, setCorrectPattern] = useState([]);
+  const [pattern, setPattern] = useState([]);
+  const [isPatternLocked, setIsPatternLocked] = useState(false);
   const navigate = useNavigate();
 
-   
-
-   const handleMouseDown = (index) => {
-     setIsDrawing(true);
-     setPattern([index]);
-   };
-
-   const handleMouseOver = (index) => {
-     if (isDrawing && !pattern.includes(index)) {
-       setPattern((prevPattern) => [...prevPattern, index]);
-     }
-   };
-console.log("Email"+email);
-console.log("PAssword"+password);
- console.log("Pattern"+pattern);
-   const handleMouseUp = () => {
-     setIsDrawing(false);
-     if (JSON.stringify(pattern) === JSON.stringify(correctPattern)) {
-       toast.success("Pattern is correct!");
-     } else {
-       toast.error("Incorrect pattern. Try again!");
-     }
-     setPattern([]);
-   };
-
-  const handleLogin = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
-     if (JSON.stringify(pattern) !== JSON.stringify(correctPattern)) {
-       toast.error('Incorrect pattern. Try again!');
-       setPattern([]);
-       return;
-     }
+    if (!isPatternLocked) {
+      toast.error("Please set a pattern first!");
+      return;
+    }
 
     try {
-
       const headers = {
         "Content-Type": "application/json",
-         "Tag": "admin",
+        "Tag": "admin",
+        "Authorization": "Token",
       };
       const res = await axios.post(
-        "http:103.181.21.93:8099/api/v1/admin/login",
-        { email, password},
-        {headers}
+        "http://103.181.21.93:8099/api/v1/admin/register",
+        { email, password, pattern }, 
+        { headers }
       );
-      const token = res.data.token;
-      setToken(token);
-      localStorage.setItem("token", token);
-      localStorage.setItem("email", email);
 
-      toast.success("Login successful!");
+      toast.success("Registration successful!");
       navigate("/");
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Registration error", error);
       toast.error(
-        error.response?.data?.message || "An error occurred during login."
+        error.response?.data?.message || "An error occurred during registration."
       );
     }
+  };
+
+  const handlePatternChange = (newPattern) => {
+    setPattern(newPattern);
+  };
+
+  const handlePatternFinish = () => {
+    toast.success("Pattern set!");
+    setIsPatternLocked(true);
   };
 
   return (
     <div className="flex justify-center items-center mt-10">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleRegister}
         className="bg-blue-900 justify-center items-center flex-col p-3"
       >
         <div className="justify-center items-center">
-          <h2 className="text-white text-2xl font-bold p-3">Login</h2>
+          <h2 className="text-white text-2xl font-bold p-3">Register</h2>
           <input
             placeholder="Enter email"
             className="py-3 mb-2 px-4 rounded-lg border w-full border-gray-300"
@@ -99,28 +78,27 @@ console.log("PAssword"+password);
             required
           />
         </div>
-        {/* Pattern Lock 
-        <div className="justify-center items-center flex bg-blue-100">
-          <div className="container flex justify-center items-center">
-            <div className="pattern-lock">
-              {[...Array(9)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`point ${pattern.includes(index) ? "active" : ""}`}
-                  onMouseDown={() => handleMouseDown(index)}
-                  onMouseOver={() => handleMouseOver(index)}
-                  onMouseUp={handleMouseUp}
-                />
-              ))}
-            </div>
-          </div>
-        </div>*/}
+
+        {/* Pattern Lock */}
+        <div className="justify-center items-center flex bg-blue-100 mb-4">
+          <PatternLock
+            width={300}
+            pointSize={15}
+            size={3}
+            path={pattern}
+            onChange={handlePatternChange}
+            onFinish={handlePatternFinish}
+            disabled={isPatternLocked}
+          />
+        </div>
+
         <div className="items-center justify-center flex">
           <button
             type="submit"
             className="p-3 m-2 bg-white rounded-2xl text-center"
+            disabled={!isPatternLocked}
           >
-            Login
+           Login
           </button>
         </div>
       </form>
@@ -129,4 +107,4 @@ console.log("PAssword"+password);
   );
 };
 
-export default Login;
+export default Register;
