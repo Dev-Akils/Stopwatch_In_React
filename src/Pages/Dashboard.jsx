@@ -3,8 +3,8 @@ import UserList from "../Components/UserList";
 import Chart from "../Components/Chart";
 
 import useFetch from "../Api/UserListApi";
-
 import StackTable from "../Components/Table/DataTable1";
+import Header from "../Components/Header/Header";
 function Dashboard() {
   const {
     response: data,
@@ -54,7 +54,7 @@ function Dashboard() {
     }
   };
   return (
-    <>
+    <><Header />
       <UserList
         data={data}
         onEmailVerifiedClick={handleEmailVerifiedClick}

@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PatternLock from "react-pattern-lock";
-// npm install react-toastify react-pattern-lock
 
-const Login = () => {
+const Login = ({setToken}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pattern, setPattern] = useState([]);
@@ -20,36 +19,51 @@ const Login = () => {
       toast.error("Please set a pattern first!");
       return;
     }
-  
+
+    const raw = {
+      deviceInfo: {
+        userAgent: navigator.userAgent,
+        os: "Windows",
+        browser: "Chrome",
+        device: "Unknown",
+        os_version: "windows-10",
+        browser_version: "126.0.0.0"
+      },
+      ipaddress: {
+        ip: "" 
+      },
+      username: email,
+      password: password,
+      pattern: pattern.join("") 
+    };
+
     try {
       const headers = {
         "Content-Type": "application/json",
-        Tag: "admin",
-        Authorization: "Token",
+        "Tag": "admin",
       };
+
       const res = await axios.post(
-        "http://103.181.21.93:8099/api/v1/admin/login",
-        { email, password, pattern },
+        "http://103.181.21.93:8099/api/v1/admin/login/",
+        raw,
         { headers }
       );
+      
       console.log("API Response:", res.data); 
-      console.log("Response:", res);
 
-      
-      const token = res.data?.token; 
-
+      const token = res.data?.token;
       if (token) {
-       
         localStorage.setItem("token", token);
-        localStorage.setItem("email", email);
-
-       
+        // localStorage.setItem("email", email);
         toast.success("Login successful!");
+        setEmail("");
+        setPassword("");
+        setPattern([]);
+        setToken(token);
+        setIsPatternLocked(false);
 
-       
-        navigate("/"); 
+        navigate("/");
       } else {
-      
         toast.error("Failed to retrieve token.");
       }
     } catch (error) {
@@ -59,7 +73,6 @@ const Login = () => {
       );
       if (error.response) {
         const { status, data } = error.response;
-        
         if (status === 400 && data.message.includes("Retry limit exceeded")) {
           toast.error("Too many login attempts. Please wait for 10 seconds before trying again.");
         } else {
@@ -70,6 +83,7 @@ const Login = () => {
       } else {
         toast.error("An unexpected error occurred.");
       }
+      setIsPatternLocked(false);
     }
   };
 
@@ -78,9 +92,8 @@ const Login = () => {
   };
 
   const handlePatternFinish = () => {
-    toast.success("Pattern set!");
+    // toast.success("Pattern set!");
     setIsPatternLocked(true);
-    console.log("Pattern:", pattern); 
   };
 
   return (
@@ -111,7 +124,6 @@ const Login = () => {
           />
         </div>
 
-        {/* Pattern Lock */}
         <div className="justify-center items-center flex bg-blue-100 mb-4">
           <PatternLock
             width={300}
