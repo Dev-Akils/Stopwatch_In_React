@@ -7,7 +7,7 @@ export const menuItemsData = [
     
 {
       title: "MASTER WALLET",
-      url: "",
+      url: "/userwallet",
       submenu: [
         {
           title: "User Management",

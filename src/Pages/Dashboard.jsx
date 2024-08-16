@@ -5,13 +5,22 @@ import Chart from "../Components/Chart";
 import useFetch from "../Api/UserListApi";
 import StackTable from "../Components/Table/DataTable1";
 import Header from "../Components/Header/Header";
+import ChartData from "../Api/ChartData";
+
 function Dashboard() {
   const {
     response: data,
-    loading,
-    error,
+    loading:loadingUserData,
+    error:errorforUser
   } = useFetch("http://103.181.21.93:8099/api/v1/admin/user/list");
   
+const {
+  response: data1,
+  loading: loadingChartData,
+  error: errorforChart
+
+}= ChartData("http://103.181.21.93:8099/api/v1/admin/get_graph_data"); 
+
   const [selectedData, setSelectedData] = useState([]);
   const exchangeTableRef = useRef(null);
   
@@ -21,6 +30,7 @@ function Dashboard() {
     }
   }, [data]);
 
+ 
   
   const handleEmailVerifiedClick = () => {
     const filteredData = data.filter(e => e.emailVerified);
@@ -62,7 +72,8 @@ function Dashboard() {
         onActiveClick={handleActiveClick}
         onInactiveClick={handleInactiveClick}
       />
-      <Chart/>
+      {/* <Chart data={data1}/> */}
+        <Chart data={data1}/>
      
       <StackTable ref={exchangeTableRef}       //DataTable1
         data={selectedData}/>

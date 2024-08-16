@@ -5,7 +5,11 @@ import {Link} from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa";
 //npm install highcharts highcharts-react-official
 
-const Chart = () => {
+const Chart = (data) => {
+  console.log("DATAAAAA"+JSON.stringify(data,null,2));
+  console.log("DAAAATAAAAAA"+data)
+
+  
   const options = {
     chart: {
       type: "spline",
