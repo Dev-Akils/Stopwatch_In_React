@@ -1,4 +1,4 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import UserList from "../Components/UserList";
 import Chart from "../Components/Chart";
 
@@ -10,30 +10,28 @@ import ChartData from "../Api/ChartData";
 function Dashboard() {
   const {
     response: data,
-    loading:loadingUserData,
-    error:errorforUser
+    loading: loadingUserData,
+    error: errorforUser,
   } = useFetch("http://103.181.21.93:8099/api/v1/admin/user/list");
-  
-const {
-  response: data1,
-  loading: loadingChartData,
-  error: errorforChart
 
-}= ChartData("http://103.181.21.93:8099/api/v1/admin/get_graph_data"); 
+  
+  const {
+    response: data1,
+    loading: loadingChartData,
+    error: errorforChart,
+  } = ChartData("http://103.181.21.93:8099/api/v1/admin/get_graph_data");
 
   const [selectedData, setSelectedData] = useState([]);
   const exchangeTableRef = useRef(null);
-  
+
   useEffect(() => {
-   if (data) {
+    if (data) {
       setSelectedData(data);
     }
   }, [data]);
 
- 
-  
   const handleEmailVerifiedClick = () => {
-    const filteredData = data.filter(e => e.emailVerified);
+    const filteredData = data.filter((e) => e.emailVerified);
     setSelectedData(filteredData);
     if (exchangeTableRef.current) {
       exchangeTableRef.current.updateData(filteredData);
@@ -41,7 +39,7 @@ const {
   };
 
   const handleNotVerifiedClick = () => {
-    const filteredData = data.filter(e => !e.emailVerified);
+    const filteredData = data.filter((e) => !e.emailVerified);
     setSelectedData(filteredData);
     if (exchangeTableRef.current) {
       exchangeTableRef.current.updateData(filteredData);
@@ -49,7 +47,7 @@ const {
   };
 
   const handleActiveClick = () => {
-    const filteredData = data.filter(e => e.isActive);
+    const filteredData = data.filter((e) => e.isActive);
     setSelectedData(filteredData);
     if (exchangeTableRef.current) {
       exchangeTableRef.current.updateData(filteredData);
@@ -57,14 +55,15 @@ const {
   };
 
   const handleInactiveClick = () => {
-    const filteredData = data.filter(e => !e.isActive);
+    const filteredData = data.filter((e) => !e.isActive);
     setSelectedData(filteredData);
     if (exchangeTableRef.current) {
       exchangeTableRef.current.updateData(filteredData);
     }
   };
   return (
-    <><Header />
+    <>
+      <Header />
       <UserList
         data={data}
         onEmailVerifiedClick={handleEmailVerifiedClick}
@@ -73,10 +72,12 @@ const {
         onInactiveClick={handleInactiveClick}
       />
       {/* <Chart data={data1}/> */}
-        <Chart data={data1}/>
-     
-      <StackTable ref={exchangeTableRef}       //DataTable1
-        data={selectedData}/>
+      <Chart data={data1} />
+
+      <StackTable
+        ref={exchangeTableRef} //DataTable1
+        data={selectedData}
+      />
     </>
   );
 }
