@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+/* body{
     @apply font-sans;
 }
 .background{
@@ -11,5 +11,5 @@ body{
 }
 .table{
     @apply shadow-xl border-2 border-gray-50  w-6/12;
-}
+} */
 

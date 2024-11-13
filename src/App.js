@@ -1,14 +1,14 @@
 import './App.css';
 
-import Dashboard from './Pages/Dashboard';
-import Header from './Components/Header/Header'; 
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Login from './Components/Login/login'; 
-import { useToken } from './Components/Login/useToken';
-import ChartData from './Api/ChartData';
- import DashboardKyc from '../src/Pages/DashboardKyc';
+// import Dashboard from './Pages/Dashboard';
+// import Header from './Components/Header/Header'; 
+// import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+// import Login from './Components/Login/login'; 
+// import { useToken } from './Components/Login/useToken';
+// import ChartData from './Api/ChartData';
+//  import DashboardKyc from '../src/Pages/DashboardKyc';
 
-import  StopWatch from './Components/Components1'
+import  StopWatch from './Components1'
 
 
 function App() {
